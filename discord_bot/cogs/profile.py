@@ -1,9 +1,10 @@
 import discord
 from discord.ext import commands, tasks
 from discord import app_commands
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 import logging
+import pytz
 
 from ..utils.database import db
 
@@ -14,9 +15,16 @@ class Profile(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.birthday_check.start()
-        
+
+    def cog_load(self):
+        """Start the birthday check loop when the cog is loaded."""
+        try:
+            self.birthday_check.start()
+        except RuntimeError:
+            logger.warning("Birthday check loop is already running")
+
     def cog_unload(self):
+        """Stop the birthday check loop when the cog is unloaded."""
         self.birthday_check.cancel()
     
     @commands.hybrid_command(name="set_birthday", description="Set your birthday (MM DD)")
@@ -103,7 +111,8 @@ class Profile(commands.Cog):
     @tasks.loop(hours=24)
     async def birthday_check(self):
         """Check for birthdays and send announcements."""
-        today = datetime.utcnow()
+        # Use timezone-aware datetime
+        today = datetime.now(pytz.UTC)
         today_str = today.strftime("%Y-%m-%d")
         
         # For each guild the bot is in

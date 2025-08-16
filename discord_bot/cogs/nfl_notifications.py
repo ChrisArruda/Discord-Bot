@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from datetime import datetime, time, timedelta, timezone
+import pytz
 from typing import Dict, List, Optional, Set, Tuple
 import aiohttp
 import discord
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 # Constants
 DEFAULT_TIMEZONE = pytz.timezone("America/Los_Angeles")
-DEFAULT_NOTIFY_TIME = time(9, 0)  # 9:00 AM
+DEFAULT_NOTIFY_TIME = time(9, 0)  # 9:00 AM PT
 DEFAULT_WINDOW_DAYS = 3
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
@@ -25,14 +26,19 @@ class NFLNotifications(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
-        self.provider = self._get_provider()
-        self._rate_limits = {}  # Track rate limits per endpoint
-        self.notification_loop.start()
-    
+        
+    def cog_load(self):
+        """Start the notification loop when the cog is loaded."""
+        try:
+            self.notification_loop.start()
+        except RuntimeError:
+            logger.warning("Notification loop is already running")
+            
     def cog_unload(self):
+        """Stop the notification loop and clean up resources when the cog is unloaded."""
         self.notification_loop.cancel()
-        asyncio.create_task(self.session.close())
+        if hasattr(self, 'session') and self.session and not self.session.closed:
+            asyncio.create_task(self.session.close())
     
     def _get_provider(self):
         """Get the appropriate schedule provider based on configuration."""
