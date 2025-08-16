@@ -1,0 +1,151 @@
+{
+    "172185719509483520": {
+        "birthday": {
+            "month": 3,
+            "day": 21
+        },
+        "pronouns": "",
+        "teams": {
+            "NFL": "Bills",
+            "NBA": "Clippers",
+            "NHL": "Kings"
+        },
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 1,
+            "losses": 1,
+            "draws": 3
+        },
+        "rps_stats": {
+            "wins": 1,
+            "losses": 10,
+            "draws": 3
+        },
+        "last_birthday_check": "2025-03-21"
+    },
+    "124330821908824064": {
+        "birthday": {
+            "month": 1,
+            "day": 27
+        },
+        "pronouns": "",
+        "teams": {
+            "NFL": "Eagles"
+        },
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 1,
+            "losses": 0,
+            "draws": 1
+        },
+        "rps_stats": {
+            "wins": 3,
+            "losses": 1,
+            "draws": 1
+        }
+    },
+    "999853361295798323": {
+        "birthday": {
+            "month": 4,
+            "day": 6
+        },
+        "pronouns": "",
+        "teams": {},
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 1,
+            "losses": 2,
+            "draws": 0
+        }
+    },
+    "145776726474096641": {
+        "birthday": {
+            "month": 1,
+            "day": 3
+        },
+        "pronouns": "",
+        "teams": {
+            "NFL": "Commanders",
+            "NBA": "Wizards",
+            "NHL": "Capitals"
+        },
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 1,
+            "losses": 2,
+            "draws": 0
+        }
+    },
+    "357272468466958337": {
+        "birthday": {
+            "month": 4,
+            "day": 27
+        },
+        "pronouns": "",
+        "teams": {},
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    },
+    "270053897945612289": {
+        "birthday": {
+            "month": 2,
+            "day": 24
+        },
+        "pronouns": "",
+        "teams": {
+            "NHL": "Blackhawks",
+            "NFL": "Vikings"
+        },
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    },
+    "130074702113669121": {
+        "birthday": {
+            "month": 8,
+            "day": 10
+        },
+        "pronouns": "",
+        "teams": {
+            "NFL": "Eagles"
+        },
+        "anime": [],
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    }
+}

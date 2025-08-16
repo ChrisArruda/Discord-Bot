@@ -1,0 +1,25 @@
+{
+    "172185719509483520": {
+        "birthday": {
+            "month": 3,
+            "day": 21
+        },
+        "pronouns": "",
+        "anime": [],
+        "teams": {
+            "NFL": "Bills",
+            "NBA": "Clippers",
+            "NHL": "Kings"
+        },
+        "tictactoe_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "rps_stats": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    }
+}
