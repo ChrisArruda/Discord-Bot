@@ -14,7 +14,7 @@ from ..utils.schedules import Game, EspnNflProvider, MockNflProvider
 logger = logging.getLogger(__name__)
 
 # Constants
-DEFAULT_TIMEZONE = pytz.timezone("America/Los_Angeles")
+# Time is in Pacific Time (manually adjusted for DST if needed)
 DEFAULT_NOTIFY_TIME = time(9, 0)  # 9:00 AM PT
 DEFAULT_WINDOW_DAYS = 3
 MAX_RETRIES = 3
@@ -109,7 +109,7 @@ class NFLNotifications(commands.Cog):
         filepath = f"data/guilds/{guild_id}.json"
         return await json_store.write(filepath, data)
     
-    @tasks.loop(time=DEFAULT_NOTIFY_TIME, timezone=DEFAULT_TIMEZONE)
+    @tasks.loop(time=DEFAULT_NOTIFY_TIME)
     async def notification_loop(self):
         """Background task to send daily notifications."""
         await self.bot.wait_until_ready()

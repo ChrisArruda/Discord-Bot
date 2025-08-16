@@ -111,8 +111,8 @@ class Profile(commands.Cog):
     @tasks.loop(hours=24)
     async def birthday_check(self):
         """Check for birthdays and send announcements."""
-        # Use timezone-aware datetime
-        today = datetime.now(pytz.UTC)
+        # Using UTC time for consistency
+        today = datetime.utcnow()
         today_str = today.strftime("%Y-%m-%d")
         
         # For each guild the bot is in
