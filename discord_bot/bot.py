@@ -20,7 +20,7 @@ class MyBot(commands.Bot):
         super().__init__(
             command_prefix=commands.when_mentioned_or(PREFIX),
             intents=intents,
-            help_command=None,
+            help_command=commands.DefaultHelpCommand(no_category='Commands'),
             activity=discord.Game(name=f"Type {PREFIX}help")
         )
         self.start_time = datetime.utcnow()
@@ -63,13 +63,13 @@ async def on_command_error(ctx, error):
         return  # Ignore command not found errors
     
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f"❌ Missing required argument: {error.param.name}")
+        await ctx.send(f" Missing required argument: {error.param.name}")
     elif isinstance(error, commands.BadArgument):
-        await ctx.send("❌ Invalid argument provided.")
+        await ctx.send(" Invalid argument provided.")
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send("❌ You don't have permission to use this command.")
+        await ctx.send(" You don't have permission to use this command.")
     else:
-        await ctx.send(f"❌ An error occurred: {str(error)}")
+        await ctx.send(f" An error occurred: {str(error)}")
         # Print the full traceback to console
         import traceback
         traceback.print_exception(type(error), error, error.__traceback__)

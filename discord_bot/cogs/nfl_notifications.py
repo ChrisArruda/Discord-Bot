@@ -8,8 +8,8 @@ import discord
 import pytz
 from discord.ext import commands, tasks
 
-from ..utils.json_store import json_store
 from ..utils.schedules import Game, EspnNflProvider, MockNflProvider
+from ..utils.database import db
 
 logger = logging.getLogger(__name__)
 
@@ -91,23 +91,23 @@ class NFLNotifications(commands.Cog):
     
     async def _get_guild_data(self, guild_id: int) -> Dict:
         """Get or initialize guild data."""
-        filepath = f"data/guilds/{guild_id}.json"
-        data = await json_store.read(filepath)
+        # Use the database to load server data
+        data = db.load_server_data(guild_id)
         
-        if not data:
-            data = {
-                "guild_id": str(guild_id),
-                "channels": {"NFL": None},
-                "users": {}
-            }
-            await json_store.write(filepath, data)
-        
+        # Ensure the data has the expected structure
+        if 'guild_id' not in data:
+            data['guild_id'] = str(guild_id)
+        if 'channels' not in data:
+            data['channels'] = {'NFL': None}
+        if 'users' not in data:
+            data['users'] = {}
+            
         return data
     
     async def _save_guild_data(self, guild_id: int, data: Dict) -> bool:
         """Save guild data."""
-        filepath = f"data/guilds/{guild_id}.json"
-        return await json_store.write(filepath, data)
+        # Use the database to save server data
+        return db.save_server_data(guild_id, data)
     
     @tasks.loop(time=DEFAULT_NOTIFY_TIME)
     async def notification_loop(self):
@@ -224,7 +224,7 @@ class NFLNotifications(commands.Cog):
             try:
                 user_tz = pytz.timezone(timezone_str)
             except pytz.exceptions.UnknownTimeZoneError:
-                user_tz = DEFAULT_TIMEZONE
+                user_tz = pytz.timezone('America/Los_Angeles')
                 logger.warning(f"Invalid timezone '{timezone_str}' for user {user_id}, using default")
             
             # Calculate date range in user's timezone
@@ -336,7 +336,7 @@ class NFLNotifications(commands.Cog):
             discord.Embed: The formatted embed
         """
         # Use provided timezone or default
-        tz = user_tz or DEFAULT_TIMEZONE
+        tz = user_tz or pytz.timezone('America/Los_Angeles')
         
         try:
             # Convert game time to user's timezone
@@ -444,7 +444,7 @@ class NFLNotifications(commands.Cog):
                 await ctx.send(
                     f"✅ **NFL Notifications Enabled**\n"
                     f"• Team: {team}\n"
-                    f"• Time: {notifications['notify_time']} {DEFAULT_TIMEZONE.zone}\n"
+                    f"• Time: {notifications['notify_time']} {pytz.timezone('America/Los_Angeles').zone}\n"
                     f"• Channel: {channel_mention if channel_id else 'Not set'}\n\n"
                     f"You'll receive notifications about upcoming {team} games in this server's notification channel. "
                     f"Use `!notify nfl settings` to customize your preferences."
@@ -559,7 +559,7 @@ class NFLNotifications(commands.Cog):
             return
             
         # Create a test game
-        now = datetime.now(DEFAULT_TIMEZONE)
+        now = datetime.now(pytz.timezone('America/Los_Angeles'))
         test_game = Game(
             home_team="Home Team",
             away_team="Away Team",
